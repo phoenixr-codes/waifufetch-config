@@ -1,0 +1,11 @@
+{
+  "name": "waifufetch-config",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "waifufetch": "link:waifufetch"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
