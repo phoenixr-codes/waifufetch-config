@@ -3,7 +3,7 @@
   "private": true,
   "devDependencies": {
     "@types/bun": "latest",
-    "waifufetch": "link:waifufetch"
+    "waifufetch": "github:phoenixr-codes/waifufetch"
   },
   "peerDependencies": {
     "typescript": "^5"
