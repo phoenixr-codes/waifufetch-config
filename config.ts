@@ -36,7 +36,7 @@ type Response = {
 }[]
 
 /** Returns a daily random quote. */
-async function fetch_quote(): Promise<string | undefined> {
+async function fetchQuote(): Promise<string | undefined> {
   const cacheFilePath = path.join(homedir(), ".cache/motd.txt");
   const cacheFile = Bun.file(cacheFilePath);
   if (await cacheFile.exists()) {
@@ -85,7 +85,7 @@ const term: string | undefined = process.env.TERM;
 const editor: string | undefined = process.env.EDITOR;
 const browser: string | undefined = process.env.BROWSER;
 
-const quote: string | undefined = await fetch_quote();
+const quote: string | undefined = await fetchQuote();
 
 const config: Config = {
   // Extend the default configuration.
