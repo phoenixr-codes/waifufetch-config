@@ -39,7 +39,9 @@ type Response = {
 async function fetchQuote(): Promise<string | undefined> {
   const cacheFilePath = path.join(homedir(), ".cache/motd.txt");
   const cacheFile = Bun.file(cacheFilePath);
-  if (await cacheFile.exists()) {
+  const oldQuoteExists = await cacheFile.exists();
+  const oldQuote = async () => oldQuoteExists ? await cacheFile.text() : undefined;
+  if (oldQuoteExists) {
     const stats = await fs.stat(cacheFilePath);
     const modificationTime = stats.mtime;
     const today = new Date();
@@ -48,9 +50,14 @@ async function fetchQuote(): Promise<string | undefined> {
       return await cacheFile.text();
     }
   }
-  const response = await fetch("https://zenquotes.io/api/random/");
-  if (!response.ok) return undefined;
-  const data = await response.json() as Response;
+  let data: Response
+  try {
+    const response = await fetch("https://zenquotes.io/api/random/");
+    if (!response.ok) return oldQuote();
+    data = await response.json() as Response;
+  } catch {
+    return oldQuote();
+  }
   const quote = data[0]!.q;
   const author = data[0]!.a;
   const text = `${quote}\n~ ${author}`;
