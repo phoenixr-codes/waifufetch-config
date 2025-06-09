@@ -91,6 +91,7 @@ const shell: string | undefined = process.env.SHELL?.split("/")?.at(-1);
 const term: string | undefined = process.env.TERM;
 const editor: string | undefined = process.env.EDITOR;
 const browser: string | undefined = process.env.BROWSER;
+const desktop: string | undefined = process.env.DESKTOP_SESSION;
 
 const quote: string | undefined = await fetchQuote();
 
@@ -110,7 +111,7 @@ const config: Config = {
     { divider: " " },
 
     // Display header for "System" section.
-    { icon: style(palette.peach, "\udb80\udf79"), text: "System" },
+    { icon: style(palette.peach, "\uDB80\uDDC5"), text: "System" },
 
     // Display the operating system.
     { icon: style(palette.peach, "\uebc6"), text: style(palette.text, (await $`uname -o`.text()).trim()) },
@@ -138,6 +139,9 @@ const config: Config = {
 
     // Display the default browser if known.
     ...(browser === undefined ? [] : [{ icon: style(palette.yellow, "\udb80\ude39"), text: style(palette.text, browser) }]),
+
+    // Display the desktop environment.
+    ...(desktop === undefined ? [] : [{ icon: style(palette.yellow, "\udb80\udf79"), text: style(palette.text, desktop) }]),
 
     // Insert a blank line.
     { divider: " " },
