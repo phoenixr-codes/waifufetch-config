@@ -3,9 +3,13 @@
   "private": true,
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/minimist": "^1.2.5",
     "waifufetch": "github:phoenixr-codes/waifufetch"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "minimist": "^1.2.8"
   }
 }

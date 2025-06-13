@@ -5,7 +5,10 @@ import { fallbackConfig } from "waifufetch";
 import type { ColorInput } from "bun";
 import type { Config } from "waifufetch";
 import { homedir } from "os";
+import minimist from "minimist";
 
+
+const args = minimist(global.args);
 
 /** Convenience function for easier applying colors on text. */
 function style(color: ColorInput, text: string): string {
@@ -85,7 +88,7 @@ const palette = {
 };
 
 /** The path to the ANSI art logo. */
-const logoPath: string = path.join(import.meta.path, "../art/endeavouros.ansi");
+const logoPath: string = args.logo ?? path.join(import.meta.path, "../art/endeavouros.ansi");
 
 const shell: string | undefined = process.env.SHELL?.split("/")?.at(-1);
 const term: string | undefined = process.env.TERM;
