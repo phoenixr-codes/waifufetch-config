@@ -91,6 +91,7 @@ const palette = {
 const logoPath: string = args.logo ?? path.join(import.meta.path, "../art/endeavouros.ansi");
 
 const shell: string | undefined = process.env.SHELL?.split("/")?.at(-1);
+const distro: string | undefined = /^Distributor ID:\t(.+)$/m.exec(await $`lsb_release --all`.nothrow().text())?.at(1);
 const term: string | undefined = process.env.TERM;
 const editor: string | undefined = process.env.EDITOR;
 const browser: string | undefined = process.env.BROWSER;
@@ -118,6 +119,9 @@ const config: Config = {
 
     // Display the operating system.
     { icon: style(palette.peach, "\uebc6"), text: style(palette.text, (await $`uname -o`.text()).trim()) },
+
+    // Display the distribution.
+    ...(distro === undefined ? [] : [{ icon: style(palette.peach, "\uf322"), text: style(palette.text, distro) }]),
 
     // Display the machine hardware name.
     { icon: style(palette.peach, "\uf4bc"), text: style(palette.text, (await $`uname -m`.text()).trim()) },
