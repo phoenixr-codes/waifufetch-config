@@ -48,14 +48,17 @@ async function fetchQuote(): Promise<string | undefined> {
     const stats = await fs.stat(cacheFilePath);
     const modificationTime = stats.mtime;
     const today = new Date();
-    const useCachedQuote = (sameDay(modificationTime, today));
+    const useCachedQuote = sameDay(modificationTime, today);
     if (useCachedQuote) {
       return await cacheFile.text();
     }
   }
   let data: Response
   try {
-    const response = await fetch("https://zenquotes.io/api/random/");
+    const response = await fetch(
+      "https://zenquotes.io/api/random/",
+      { signal: AbortSignal.timeout(2_000) },
+    );
     if (!response.ok) return oldQuote();
     data = await response.json() as Response;
   } catch {
